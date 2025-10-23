@@ -12,4 +12,11 @@ public interface IJSValue
 
     JSObject GetPrototype();
 
+    bool IsObject {  get; }
+
+    IJSValue GetValue(IJSValue receiver, uint key);
+    IJSValue GetValue(IJSValue receiver, KeyString key);
+
+    IJSValue GetValue(IJSValue receiver, JSSymbol key);
+
 }

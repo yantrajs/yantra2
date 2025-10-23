@@ -4,31 +4,28 @@ using System.Text;
 
 namespace YantraJS.Core;
 
-/// <summary>
-/// JSFunction does not inherit from JSObject for performance reasons.
-/// </summary>
-public abstract class JSFunction : IJSValue
+public abstract class JSFunction : JSBaseFunction
 {
-    public readonly JSContext context;
-    public readonly StringSpan OrignalCode;
-    private string code;
-
-    public JSFunction(JSContext context, in StringSpan code)
+    public JSFunction(JSContext context) : base(context)
     {
-        this.context = context;
-        this.OrignalCode = code;
     }
 
-    public JSObject GetPrototype()
+    public JSFunction(JSContext context, in StringSpan code) : base(context, code)
     {
-        throw new NotImplementedException();
     }
 
-    public abstract IJSValue InvokeFunction(IJSValue receiver, in Arguments args);
 
-    IJSValue IJSValue.ToString()
+
+    class Apply : JSBaseFunction
     {
-        this.code ??= OrignalCode.Value;
-        return this.context.NewString(code);
+        public Apply(JSContext context) : base(context)
+        {
+        }
+
+        public override IJSValue InvokeFunction(IJSValue receiver, in Arguments args)
+        {
+            throw new NotImplementedException();
+        }
     }
+
 }
